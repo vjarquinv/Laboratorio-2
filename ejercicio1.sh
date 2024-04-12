@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Uso: ./ejercicio1.sh <id_proceso>
+
 # Se asigna el primer argumento
 
 id_proceso=$1
@@ -11,6 +13,7 @@ if ! ps -p $id_proceso > /dev/null; then
     exit 1
 fi
 
+# Si el proceso existe, con ps -o especifico la salida que quiero del proceso
 
 nombre_proceso=$(ps -o comm= -p $id_proceso)
 ppid=$(ps -o ppid= -p $id_proceso)
@@ -18,7 +21,12 @@ usuario=$(ps -o user= -p $id_proceso)
 porcentaje_cpu=$(ps -o %cpu= -p $id_proceso)
 consumo_memoria=$(ps -o %mem= -p $id_proceso)
 estado=$(ps -o state= -p $id_proceso)
+
+# Con readlink busco la ruta del ejecutable del proceso
+
 path_exe=$(readlink /proc/$id_proceso/exe)
+
+# Imprime la informacion del proceso
 
 echo "Nombre del proceso: $nombre_proceso"
 echo "ID del proceso: $id_proceso"
